@@ -13,70 +13,107 @@ function getComputerChoice(computerSelection){
 }
 
 
-function playGame(){
-    let playerWins=0;
-    let computerWins=0;
+let playerWins=0;
+let computerWins=0;
+const computerSelection = getComputerChoice();
 
-    for(let rounds=1; rounds<6; rounds++){
-        playerSelection=prompt(`Let's play Rock, Paper and Scissors. 
-Type in Rock, Papers or Scissors.
-This is round ${rounds} out of 5.`);
-        //playerSelection=userInput;
-        const computerSelection = getComputerChoice();
-        playRound(playerSelection, computerSelection)
 
-        function playRound(playerSelection, computerSelection){
-            const playerSelectionLowerCase=playerSelection.toLowerCase();
-            if (playerSelectionLowerCase===`rock` && computerSelection==`scissors`){
-                playerWins++;
-                console.log(`You won! You had won ${playerWins} rounds in total.`)
-    
-                return result=`Victory`
-                
-            }
-            if (playerSelectionLowerCase===`paper` && computerSelection==`rock`){
-                playerWins++;
-                console.log(`You won! You had won ${playerWins} rounds in total.`)
-    
-                return result=`Victory`
-            }
-            if (playerSelectionLowerCase===`scissors` && computerSelection==`paper`){
-                playerWins++;
-                console.log(`You won! You had won ${playerWins} rounds in total.`)
-    
-                return result=`Victory`
-            }
-        
-            if (playerSelectionLowerCase===`scissors` && computerSelection==`rock`){
-                computerWins++;
-                console.log(`You lost! You had won ${playerWins} rounds in total.`)
-    
-                return result=`Loss`
-            }
-            if (playerSelectionLowerCase===`rock` && computerSelection==`paper`){
-                computerWins++;
-                console.log(`You lost! You had won ${playerWins} rounds in total.`)
-    
-                return result=`Loss`
-            }
-            if (playerSelectionLowerCase===`paper` && computerSelection==`scissors`){
-                computerWins++;
-                console.log(`You lost! You had won ${playerWins} rounds in total.`)
-    
-                return result=`Loss`
-            }
-            else {
-                console.log(`It's a tie.`)
-                return result=`Tie`
-            }
+const mainBody=document.querySelector("body");
+const rockBtn=document.createElement("button")
+rockBtn.classList.add("buttons");
+rockBtn.textContent="Rock";
+mainBody.appendChild(rockBtn)
+
+rockBtn.addEventListener("click", function(event){
+    playRound(`rock`,getComputerChoice())
+});
+
+const paperBtn=document.createElement("button")
+paperBtn.classList.add("buttons");
+paperBtn.textContent="Paper";
+mainBody.appendChild(paperBtn)
+
+paperBtn.addEventListener("click", function(event){
+    playRound(`paper`,getComputerChoice())
+});
+
+const scissorsBtn=document.createElement("button")
+scissorsBtn.classList.add("buttons");
+scissorsBtn.textContent="Scissors";
+mainBody.appendChild(scissorsBtn)
+
+scissorsBtn.addEventListener("click", function(event){
+    playRound(`scissors`,getComputerChoice())
+});
+
+
+
+const resultDIV=document.createElement("div")
+resultDIV.classList.add("result");
+mainBody.appendChild(resultDIV)
+
+
+
+function playRound(playerSelection, computerSelection){
+        if (playerSelection===`rock` && computerSelection==`scissors`){
+            playerWins++;
+            resultDIV.textContent=`You won the round! Computer chose ${computerSelection}.
+            Current score is ${playerWins}:${computerWins}`;
+            
+            endResult();    
         }
+        if (playerSelection===`paper` && computerSelection==`rock`){
+            playerWins++;
+            resultDIV.textContent=`You won the round! Computer chose ${computerSelection}.
+            Current score is ${playerWins}:${computerWins}`
+            
+            endResult();
+        }
+        if (playerSelection===`scissors` && computerSelection==`paper`){
+            playerWins++;
+            resultDIV.textContent=`You won the round! Computer chose ${computerSelection}.
+            Current score is ${playerWins}:${computerWins}`
+    
+            endResult();
+        }
+        
+        if (playerSelection===`scissors` && computerSelection==`rock`){
+            computerWins++;
+            resultDIV.textContent=`You lost the round! Computer chose ${computerSelection}.
+            Current score is ${playerWins}:${computerWins}`
+    
+            endResult();
+        }
+        if (playerSelection===`rock` && computerSelection==`paper`){
+            computerWins++;
+            resultDIV.textContent=`You lost the round! Computer chose ${computerSelection}.
+            Current score is ${playerWins}:${computerWins}`
+    
+            endResult();
+        }
+        if (playerSelection===`paper` && computerSelection==`scissors`){
+            computerWins++;
+            resultDIV.textContent=`You lost the round! Computer chose ${computerSelection}.
+            Current score is ${playerWins}:${computerWins}`
+    
+            endResult();
+        }
+        if (playerSelection===computerSelection) {
+            resultDIV.textContent=`It's a tie. Computer chose ${computerSelection}.
+            Current score is ${playerWins}:${computerWins}`
+        }
+}
+
+function endResult(){
+    if (playerWins===5){
+        resultDIV.textContent=`You had WON the game. You won ${playerWins} times. Meanwhile, the computer won ${computerWins} rounds.`
     }
-    if (playerWins>computerWins){
-        console.log(`You had won the game. You won ${playerWins} times.`)
-    }
-    else if (playerWins<computerWins){
-        console.log(`You had lost the game. Computer won ${computerWins} times.`)
+    else if (computerWins===5){
+        resultDIV.textContent=`You had LOST the game. Computer won ${computerWins} times. Meanwhile, you won ${playerWins} rounds.`
     }
 }
 
-playGame()
+
+
+
+
